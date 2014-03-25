@@ -1,0 +1,14 @@
+extends layout
+
+block body
+    #main-container
+        #question-body.bordered
+            p.bold#question-text= question.text
+        #question-answers.bordered
+            #form-holder
+                form(action="/", method="post")
+                    - foreach(i, answer; question.answers)
+                        input(type="radio", name="variant", value="#{i}") 
+                        label.bold= answer
+                        br
+                    input.center.bold(type="submit", value="Дальше")
