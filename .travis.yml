@@ -1,11 +1,6 @@
 language: d
 
-#compiler:
-#  - dmd
-
 install:
-  # dmd
-  # dub
   - DMD_VER=2.065.0
   - DMD=dmd_${DMD_VER}-0_amd64.deb
   - DUB_VER=0.9.21
@@ -20,5 +15,4 @@ install:
 
 script:
   - dub build
-  # dub --config=unittest --build=unittest
   - dub --build=unittest
