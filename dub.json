@@ -1,0 +1,10 @@
+{
+	"name": "bookinger",
+	"description": "An expert system, that help with choice of science-fiction book.",
+	"copyright": "Copyright © 2014, ncrashed",
+	"authors": ["ncrashed"],
+	"versions": ["VibeDefaultMain"],
+	"dependencies": {
+		"vibe-d": "~master"
+	}
+}
