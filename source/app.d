@@ -6,14 +6,12 @@
 module app;
 
 import vibe.d;
-import data.question;
 import frontend.api;
 
 void index(HTTPServerRequest req,
            HTTPServerResponse res)
 {
-    auto question = Question();
-    res.render!("index.dt", req, question);
+    res.render!("index.dt", req);
 }
 
 shared static this()

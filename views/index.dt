@@ -10,14 +10,28 @@ block head
         {
             client = new $.RestClient('/api/');
             client.add('next');
+            client.add('answer', {stringifyData:true});
             
             $('#sendAnswer').click(function(event) {
                 event.preventDefault();
                 
-                client.next.read().done(function(data) {
-                    displayQuestion(data);        
-                });
+                sendQuestion();
+                requestQuestion();
             });
+            
+            requestQuestion();
+        }
+        
+        function requestQuestion()
+        {
+            client.next.read().done(function(data) {
+                displayQuestion(data);        
+            });
+        }
+        
+        function sendQuestion()
+        {
+            client.answer.create({answer: $('input[name=variant]:checked', '#answerForm').val()});
         }
         
         function displayQuestion(question)
@@ -25,8 +39,15 @@ block head
             clearQuestion();
             $('#question-text').text(question.text);
             question.answers.forEach(function(entry, i) {
-                $('.answerForm').prepend('<input class="radio" type="radio", name="variant", value="' + i + '">'
-                                       + '<label class="radio bold">' + entry + '</label><br class="radio">');
+                if(i == 0)
+                {
+                    $('#answerForm').prepend('<input class="radio" type="radio", name="variant", value="' + i + '" checked>'
+                                           + '<label class="radio bold">' + entry + '</label><br class="radio">');
+                } else
+                {
+                    $('#answerForm').prepend('<input class="radio" type="radio", name="variant", value="' + i + '">'
+                                           + '<label class="radio bold">' + entry + '</label><br class="radio">');
+                }
             });
         }
         
@@ -38,12 +59,8 @@ block head
 block body
     #main-container
         #question-body.bordered
-            p.bold#question-text= question.text
+            p.bold#question-text
         #question-answers.bordered
             #form-holder
-                form.answerForm
-                    - foreach(i, answer; question.answers)
-                        input.radio(type="radio", name="variant", value="#{i}") 
-                        label.radio.bold= answer
-                        br.radio
+                form#answerForm
                     input.center.bold#sendAnswer(type="submit", value="Дальше")
