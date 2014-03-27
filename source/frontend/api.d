@@ -25,7 +25,7 @@ class Frontend : IFrontend
     
     Question next()
     {
-        return Question();
+        return Question("Are you afraid of death, Mr. Freeman?", ["No, die octopus!", "Yes, i shall serve you!"]);
     }
     
     void postAnswer(string answer)
