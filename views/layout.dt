@@ -3,5 +3,6 @@ html
     head
         title Bookinger - выбери себе книгу!
         link(rel="stylesheet", type="text/css", href="styles/style.css", media="all")
+        block head
     body
         block body

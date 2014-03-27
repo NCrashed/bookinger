@@ -1,14 +1,49 @@
 extends layout
 
+block head
+    script(src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js")
+    script(src="http://jpillora.com/jquery.rest/dist/1/jquery.rest.min.js")
+    :javascript
+        var client;
+        
+        window.onload = function()
+        {
+            client = new $.RestClient('/api/');
+            client.add('next');
+            
+            $('#sendAnswer').click(function(event) {
+                event.preventDefault();
+                
+                client.next.read().done(function(data) {
+                    displayQuestion(data);        
+                });
+            });
+        }
+        
+        function displayQuestion(question)
+        {
+            clearQuestion();
+            $('#question-text').text(question.text);
+            question.answers.forEach(function(entry, i) {
+                $('.answerForm').prepend('<input class="radio" type="radio", name="variant", value="' + i + '">'
+                                       + '<label class="radio bold">' + entry + '</label><br class="radio">');
+            });
+        }
+        
+        function clearQuestion()
+        {
+            $('.radio').remove();
+        }
+        
 block body
     #main-container
         #question-body.bordered
             p.bold#question-text= question.text
         #question-answers.bordered
             #form-holder
-                form(action="/", method="post")
+                form.answerForm
                     - foreach(i, answer; question.answers)
-                        input(type="radio", name="variant", value="#{i}") 
-                        label.bold= answer
-                        br
-                    input.center.bold(type="submit", value="Дальше")
+                        input.radio(type="radio", name="variant", value="#{i}") 
+                        label.radio.bold= answer
+                        br.radio
+                    input.center.bold#sendAnswer(type="submit", value="Дальше")

@@ -1,10 +1,13 @@
-import vibe.d;
+/**
+*   Copyright: © 2014 Anton Gushcha
+*   License: Subject to the terms of the MIT license, as written in the included LICENSE file.
+*   Authors: NCrashed <ncrashed@gmail.com>
+*/
+module app;
 
-struct Question
-{
-    string text = "Are you afraid of death, Mr. Freeman?";
-    string[] answers = ["No, die octopus!", "Yes, i shall serve you!"];
-}
+import vibe.d;
+import data.question;
+import frontend.api;
 
 void index(HTTPServerRequest req,
            HTTPServerResponse res)
@@ -17,6 +20,7 @@ shared static this()
 {
     auto router = new URLRouter;
     router.get("/", &index);
+    registerRestInterface(router, new Frontend(), "/api");
     router.get("*", serveStaticFiles("public/"));
     
     auto settings = new HTTPServerSettings;
