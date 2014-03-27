@@ -25,7 +25,8 @@ class Frontend : IFrontend
     
     Question next()
     {
-        return Question("Are you afraid of death, Mr. Freeman?", ["No, die octopus!", "Yes, i shall serve you!"]);
+        //return Question("Are you afraid of death, Mr. Freeman?", ["No, die octopus!", "Yes, i shall serve you!"]);
+        return Question("Сколько страниц в вашей идеальной книге? Введите число от 100 до 700.", "100", "700");
     }
     
     void postAnswer(string answer)

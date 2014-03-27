@@ -43,6 +43,12 @@
     font-size: 16pt;
 }
 
+.errormsg {
+	font-family: "Rockwell Extra Bold", "Rockwell Bold", monospace;
+    font-size: 16pt;
+    color: #DB2E56;
+}
+
 #question-text {
 	text-align: center;
     vertical-align: middle;
