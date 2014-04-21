@@ -8,6 +8,7 @@ module frontend.api;
 import data.question;
 import vibe.http.rest;
 import vibe.core.log;
+import backend.api;
 import std.conv;
 
 interface IFrontend
@@ -21,6 +22,13 @@ interface IFrontend
 
 class Frontend : IFrontend
 {
+    IBackend backend;
+    
+    this(IBackend backend)
+    {
+        this.backend = backend;
+    }
+    
     override:
     
     Question next()

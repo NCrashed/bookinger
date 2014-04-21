@@ -5,7 +5,9 @@
 	"authors": ["ncrashed"],
 	"license": "MIT",
 	"versions": ["VibeDefaultMain"],
+	"targetPath": "bin",
 	"dependencies": {
-		"vibe-d": "~master"
+		"vibe-d": "~master",
+		"dlogg": "~master"
 	}
 }

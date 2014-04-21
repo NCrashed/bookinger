@@ -7,6 +7,8 @@ module app;
 
 import vibe.d;
 import frontend.api;
+import backend.api;
+import dlogg.strict;
 
 void index(HTTPServerRequest req,
            HTTPServerResponse res)
@@ -16,9 +18,13 @@ void index(HTTPServerRequest req,
 
 shared static this()
 {
+    shared ILogger logger = new shared StrictLogger("logs/bookinger.log");
     auto router = new URLRouter;
     router.get("/", &index);
-    registerRestInterface(router, new Frontend(), "/api");
+    
+    auto backend = new Backend(logger, "http://127.0.0.1:8082");
+    backend.headQuestions;
+    registerRestInterface(router, new Frontend(backend), "/api");
     router.get("*", serveStaticFiles("public/"));
     
     auto settings = new HTTPServerSettings;
