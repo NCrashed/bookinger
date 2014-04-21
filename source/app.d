@@ -28,9 +28,8 @@ version(unittest)
         router.get("/", &index);
         
         auto backend = new Backend(logger, "http://127.0.0.1:8082");
-        backend.headQuestions;
-        registerRestInterface(router, new Frontend(backend), "/api");
-        router.get("*", serveStaticFiles("public/"));
+        registerRestInterface(router, new Frontend(logger, backend), "/api");
+        router.get("*", serveStaticFiles("../public"));
         
         auto settings = new HTTPServerSettings;
         settings.bindAddresses = ["127.0.0.1"];

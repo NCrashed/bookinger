@@ -117,9 +117,9 @@ struct Question
 
 class QuestionTree
 {
-    Node root;
+    private Node root;
     
-    static class Node
+    private static class Node
     {
         DList!Node childs;
         Question value;
@@ -148,6 +148,29 @@ class QuestionTree
     this(Node root)
     {
         this.root = root;
+    }
+    
+    bool isLeaf()
+    {
+        return root is null;
+    }
+    
+    Question value()
+    {
+        assert(!isLeaf);
+        return root.value;
+    }
+    
+    void popFront(size_t index)
+    {
+       assert(!isLeaf);
+       
+       auto l = root.childs[].walkLength;
+       assert(l > 0);
+       if(index >= l) index = l - 1;
+       
+       root = root.childs[].array[index];
+       std.stdio.writeln("New value is ", value.text);
     }
     
     override string toString()

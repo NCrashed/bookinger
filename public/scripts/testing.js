@@ -1,6 +1,7 @@
 var client;
 var answerVariants;
 var lastQuestion;
+var sessionId = -1;
 
 window.onload = function()
 {
@@ -23,8 +24,9 @@ window.onload = function()
 
 function requestQuestion()
 {
-    client.next.read().done(function(data) {
+    client.next.read({"sessionId": sessionId}).done(function(data) {
         lastQuestion = data;
+        sessionId = data.sessionId;
         displayQuestion(data);        
     });
 }
@@ -33,7 +35,7 @@ function sendQuestion()
 {
     if(answerVariants)
     {
-        client.answer.create({answer: $('input[name=variant]:checked', '#answerForm').val()});
+        client.answer.create({"sessionId": sessionId, answer: $('input[name=variant]:checked', '#answerForm').val()});
         return true;
     }
     else

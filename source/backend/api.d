@@ -14,7 +14,7 @@ import dlogg.log;
 
 interface IBackend
 {
-    InputRange!Question headQuestions();
+    InputRange!QuestionTree startTrees();
 }
 
 class Backend : IBackend
@@ -28,16 +28,9 @@ class Backend : IBackend
         db = new RestInterfaceClient!IDataBase(url);
     }
     
-    InputRange!Question headQuestions()
+    InputRange!QuestionTree startTrees()
     {
         auto questions = Question.fromResponse(db.runRpc!"getAllQuestions"());
-        auto trees = QuestionTree.construct(questions);
-        
-        foreach(tree; trees)
-        {
-            logger.logDebug(tree); 
-        }
-        
-        assert(false);
+        return QuestionTree.construct(questions);
     }
 }
