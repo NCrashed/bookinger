@@ -16,20 +16,26 @@ void index(HTTPServerRequest req,
     res.render!("index.dt", req);
 }
 
-shared static this()
+version(unittest)
 {
-    shared ILogger logger = new shared StrictLogger("logs/bookinger.log");
-    auto router = new URLRouter;
-    router.get("/", &index);
     
-    auto backend = new Backend(logger, "http://127.0.0.1:8082");
-    backend.headQuestions;
-    registerRestInterface(router, new Frontend(backend), "/api");
-    router.get("*", serveStaticFiles("public/"));
-    
-    auto settings = new HTTPServerSettings;
-    settings.bindAddresses = ["127.0.0.1"];
-    settings.port = 8000;
-    
-    listenHTTP(settings, router);
+} else
+{
+    shared static this()
+    {
+        shared ILogger logger = new shared StrictLogger("logs/bookinger.log");
+        auto router = new URLRouter;
+        router.get("/", &index);
+        
+        auto backend = new Backend(logger, "http://127.0.0.1:8082");
+        backend.headQuestions;
+        registerRestInterface(router, new Frontend(backend), "/api");
+        router.get("*", serveStaticFiles("public/"));
+        
+        auto settings = new HTTPServerSettings;
+        settings.bindAddresses = ["127.0.0.1"];
+        settings.port = 8000;
+        
+        listenHTTP(settings, router);
+    }
 }
